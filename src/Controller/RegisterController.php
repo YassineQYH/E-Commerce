@@ -36,7 +36,7 @@ class RegisterController extends AbstractController
             $user->setPassword($password);
 
             
-            $this->entityManager->persist($user);  /* Persister/Figer l'entité user car j'ai besoin de l'enregistrer */
+            $this->entityManager->persist($user);  /* Persister/Figer l'entité user et prépare toi à être créer en bdd car j'ai besoin de l'enregistrer */
             $this->entityManager->flush(); /* Exécuter la persistance, l'enregistrer en bdd */
         }
 
