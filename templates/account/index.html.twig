@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte : Boutique E-commerce{% endblock %}
+
+{% block content %}
+    <h1>Mon compte</h1>
+    Bonjour {{ app.user.firstname }} , bienvenu dans votre compte.</br>
+    C'est ici que vous allez pouvoir gérer toutes vos informations personnelles.
+    <hr>
+    - Modifier mon mot de passe</br>
+    - Ajouter mes adresses</br>
+    - Mes commandes</br>
+    <hr>
+    
+{% endblock %}
