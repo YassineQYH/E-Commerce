@@ -16,7 +16,7 @@ class RegisterController extends AbstractController
     private $entityManager;
         
     public function __construct(EntityManagerInterface $entityManager) {
-        $this->entityManager = $entityManager;
+        $this->entityManager = $entityManager;  /* Permet d'aller chercher des informations en bdd graçe à l'orm doctrine */
     }
 
     /**
