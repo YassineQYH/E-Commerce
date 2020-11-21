@@ -33,6 +33,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         $tmp_name = $all_files["file"];
         $filename = uniqid();
         $extention = pathinfo($tmp_name, PATHINFO_EXTENSION);
+        //$extention = pathinfo($_FILES['Product']['name']['illustration']['file'], PATHINFO_EXTENSION);
  
         $project_dir = $this->appKernel->getProjectDir();
  
