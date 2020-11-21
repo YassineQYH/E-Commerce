@@ -30,7 +30,15 @@
                             {{ product.product.name }}</br>
                             <small>{{ product.product.subtitle }}</small>
                             </td>
-                            <td>x {{ product.quantity }}</td>
+                            <td>
+                                <a href="{{ path('decrease_to_cart', {'id' : product.product.id }) }}">
+                                    <img src="{{ asset('assets/img/less.png') }}" height="12px" alt="Retirer un produit">
+                                </a>
+                                x {{ product.quantity }}
+                                <a href="{{ path('add_to_cart', {'id' : product.product.id }) }}">
+                                    <img src="{{ asset('assets/img/more.png') }}" height="12px" alt="Ajouter un produit">
+                                </a>
+                            </td>
                             <td>{{ (product.product.price / 100)|number_format(2, ',','.') }} €</td>
                             <td>{{ ((product.product.price * product.quantity) / 100)|number_format(2, ',','.') }} €</td>
                             <td>
@@ -45,10 +53,13 @@
             <div class="text-right mb-5">
                 <b>Nombre de produit :</b> {{ cart|length }}</br>
                 <b>Total de mon panier :</b> {{ (total / 100)|number_format(2, ',','.') }} € 
-                <a href="" class="btn btn-success btn-block">Valiver mon panier</a>
+                <a href="" class="btn btn-success btn-block">Valider mon panier</a>
             </div>
         {% else %}
         <hr>
         <p><b>Votre panier est vide.</b></p>
         {% endif %}
+{% endblock %}
+
+{% block widget %}
 {% endblock %}
