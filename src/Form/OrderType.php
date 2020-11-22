@@ -19,7 +19,7 @@ class OrderType extends AbstractType
 
         $builder
             ->add('addresses', EntityType::class, [
-                'label' => 'Choisissez votre adresse de livraison',
+                'label' => false,
                 'required' => true,
                 'class' => Address::class,
                 'choices' => $user->getAddresses(), /* Me permet de récupérer uniquement les adresses de l'utilisateur et non pas des autres */
