@@ -16,22 +16,27 @@
 
         </div>
         <div class="col-md-6">
-            <b>Récap de ma commande</b></br>
+            <div class="text-center">
+                <b>Récap de ma commande</b></br>
+                <p>Retrouvez le récapitulatif de vos produits.</p>
+            </div>
             {# {{ dump(cart) }} #}
-            {% for item in cart %}
-                <div class="row">
-                    <div class="col-2">
-                        <img src="/uploads/{{ item.product.illustration }}" alt="{{ item.product.name }}" height="75px"></br>
+            <div class="order-summary">
+                {% for key,item in cart %}{# key => pour être en mesure de compter #}
+                    <div class="row {% if key> 0 %}mt-2{% endif %}">
+                        <div class="col-2">
+                            <img src="/uploads/{{ item.product.illustration }}" alt="{{ item.product.name }}" height="75px"></br>
+                        </div>
+                        <div class="col-8 my-auto">
+                            {{ item.product.name }}</br>
+                            <small>{{ item.product.subtitle }}</small>
+                        </div>
+                        <div class="col-2 my-auto">
+                            x {{ item.quantity }}
+                        </div>
                     </div>
-                    <div class="col-8 my-auto">
-                        {{ item.product.name }}</br>
-                        <small>{{ item.product.subtitle }}</small>
-                    </div>
-                    <div class="col-2 my-auto">
-                        x {{ item.quantity }}
-                    </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 
