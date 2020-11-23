@@ -13,6 +13,7 @@ class Mail
     public function send($to_email, $to_name, $subject, $content)
     {
         $mj = new Client($this->api_key, $this->api_key_secret,true,['version' => 'v3.1']);
+        $mj->setTimeout(3);
         $body = [
             'Messages' => [
                 [
@@ -36,6 +37,6 @@ class Mail
             ]
         ];
         $response = $mj->post(Resources::$Email, ['body' => $body]);
-        $response->success() && dd($response->getData());
+        $response->success();
     }
 }
