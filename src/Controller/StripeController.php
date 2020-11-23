@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Classe\Cart;
+use App\Entity\Order;
+use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,32 +16,51 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class StripeController extends AbstractController
 {
     /**
-     * @Route("/commande/create-session", name="stripe_create_session")
+     * @Route("/commande/create-session/{reference}", name="stripe_create_session")
      */
-    public function index(Cart $cart)
+    public function index(EntityManagerInterface $entityManager, Cart $cart, $reference)
     {
         $product_for_stripe = [];
         $YOUR_DOMAIN = 'http://127.0.0.1:8000';
         
-        foreach ($cart->getFull() as $product) {
-            $product_for_stripe[] = [
+        $order = $entityManager->getRepository(Order::class)->findOneByReference($reference);
 
+        if (!$order) {
+            new JsonResponse(['error' => 'order']);
+        }
+
+        foreach ($order->getOrderDetails()->getValues() as $product) {
+            $product_object = $entityManager->getRepository(Product::class)->findOneByName($product->getProduct());
+            $product_for_stripe[] = [
                 'price_data' => [
                     'currency' => 'eur',
-                    'unit_amount' => $product['product']->getPrice(),
+                    'unit_amount' => $product->getPrice(),
                     'product_data' => [
-                        'name' => $product['product']->getName(),
-                        'images' => [$YOUR_DOMAIN."/uploads/".$product['product']->getIllustration()],
+                        'name' => $product->getProduct(),
+                        'images' => [$YOUR_DOMAIN."/uploads/".$product_object->getIllustration()],
                     ],
                 ],
-                'quantity' => $product['quantity'],
+                'quantity' => $product->getQuantity(),
             ];
         }
+
+        $product_for_stripe[] = [
+            'price_data' => [
+                'currency' => 'eur',
+                'unit_amount' => $order->getCarrierPrice() * 100,
+                'product_data' => [
+                    'name' => $order->getCarrierName(),
+                    'images' => [$YOUR_DOMAIN],/* On peut rajouter une image par exemple Colissimo, une icone de trasnporteur etc */
+                ],
+            ],
+            'quantity' => 1,
+        ];
 
         Stripe::setApiKey('sk_test_51HqeyuB0aAqL8oGBQde3mZ6O4x7MNbgY5aTAvJ0rGJJtj7Pg5swy9D5cZvfGlKF0oRHYfB9YeN174lw9IMnAOwRq00Ov0etLTq');
 
 
         $checkout_session = Session::create([
+            'customer_email' => $this->getUser()->getEmail(),   /* Permet à l'utilisateur de ne pas retapper son mail => l'email sera pré-enregistrer */
             'payment_method_types' => ['card'],
             'line_items' => [
                 $product_for_stripe
