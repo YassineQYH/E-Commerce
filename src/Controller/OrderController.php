@@ -59,7 +59,7 @@ class OrderController extends AbstractController
                 $date = new DateTime();
                 $carriers = $form->get('carriers')->getData();
                 $delivery = $form->get('addresses')->getData();
-                $delivery_content = $delivery->getFirstname().' '.$delivery->getFirstname();
+                $delivery_content = $delivery->getFirstname().' '.$delivery->getLastname();
                 $delivery_content .= '</br>'.$delivery->getPhone();
                 
                 if ($delivery->getCompany()) {
