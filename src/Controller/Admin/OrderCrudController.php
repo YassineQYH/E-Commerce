@@ -62,6 +62,12 @@ class OrderCrudController extends AbstractCrudController
             ->setAction('index')
             ->generateUrl();
 
+            /* Ici si je veux envoyer un mail | pas encore fait de teste pour ça */
+                /* $mail = new Mail();
+                $content = "Bonjour ".$user->getFirstname()."</br>Bienvenue sur la première boutique dédié au made in France.</br></br>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias eum, consequuntur cum deserunt, nobis maxime quod cupiditate nulla maiores id nesciunt ipsam officia eos sunt minima sapiente voluptatum repellendus amet praesentium autem iure voluptatem veritatis atque perspiciatis? Dolor, eum voluptate eligendi, adipisci, eius et minima modi odio nostrum voluptates deserunt.
+                ";
+                $mail->send($user->getEmail(), $user->getFirstname(), 'Bienvenue sur la Boutique E-Commerce', $content); */
+
             return $this->redirect($url);
     }
 
